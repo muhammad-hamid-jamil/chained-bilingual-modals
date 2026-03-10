@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Chained Bilingual Modals — Muhammad Hamid</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 
   <style>
@@ -20,17 +20,18 @@
        MODAL — paste into Webflow
        ════════════════════════════════ */
 
-    /* Brand tokens (customize in :root) */
+    /* Brand tokens — Premium Black & Gold */
     :root {
-      --age-green:        #007A3D;
-      --age-green-dark:   #005C2E;
-      --age-green-light:  #E8F5EE;
-      --age-green-mid:    #D0EAD9;
+      --age-black:        #0A0A0A;
+      --age-black-soft:   #141414;
+      --age-gold:         #D4AF37;
+      --age-gold-light:   #F8F0DC;
+      --age-gold-dark:    #B8860B;
+      --age-gold-mid:     #E8D5A3;
       --age-text:         #1A1A1A;
-      --age-text-muted:   #6B7280;
-      --age-red:          #D93025;
+      --age-text-muted:   #5C5C5C;
       --age-white:        #FFFFFF;
-      --age-border:       #E2E8E4;
+      --age-border:       #E5E2DB;
       --age-radius:       12px;
     }
 
@@ -39,7 +40,7 @@
     #ageOverlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.55);
+      background: rgba(0, 0, 0, 0.75);
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
       z-index: 99999;
@@ -67,8 +68,8 @@
       flex-shrink: 0;
       margin: auto;
       box-shadow:
-        0 20px 60px rgba(0,0,0,.18),
-        0 0 0 1px rgba(0,122,61,.12);
+        0 24px 80px rgba(0,0,0,.4),
+        0 0 0 1px rgba(212,175,55,.25);
       animation: ageSlideUp .4s cubic-bezier(.22,1,.36,1);
     }
     @keyframes ageSlideUp {
@@ -76,9 +77,9 @@
       to   { opacity:1; transform:translateY(0)    }
     }
 
-    /* ── TOP GREEN BANNER ── */
+    /* ── TOP BLACK BANNER ── */
     .age-banner {
-      background: var(--age-green);
+      background: var(--age-black);
       padding: 20px 24px 18px;
       position: relative;
       flex-shrink: 0;
@@ -88,7 +89,7 @@
       position: absolute;
       right: 0; top: 0; bottom: 0;
       width: 120px;
-      background: linear-gradient(135deg, transparent 50%, rgba(255,255,255,.06) 50%);
+      background: linear-gradient(135deg, transparent 40%, rgba(212,175,55,.08) 100%);
       pointer-events: none;
     }
 
@@ -111,31 +112,32 @@
     .age-logo-text {
       max-height: 50px;
       width: auto;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 700;
-      color: #fff;
-      letter-spacing: 0.02em;
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--age-gold);
+      letter-spacing: 0.08em;
     }
 
     .age-close,
     .age-x {
-      background: rgba(207, 17, 17, 0.671);
-      border: 1px solid rgba(255,255,255,.2);
-      color: rgba(255,255,255,.85);
+      background: transparent;
+      border: 1.5px solid rgba(212,175,55,.4);
+      color: var(--age-gold);
       width: 30px; height: 30px;
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       cursor: pointer;
       flex-shrink: 0;
-      transition: background .2s;
+      transition: background .2s, border-color .2s;
     }
     .age-close:hover,
-    .age-x:hover { background: rgb(253, 6, 6); color: #fff; }
+    .age-x:hover { background: var(--age-gold); color: var(--age-black); border-color: var(--age-gold); }
 
     /* ── HEADLINE SECTION (below banner) ── */
     .age-headline,
     .age-hl {
-      background: var(--age-green-dark);
+      background: var(--age-black-soft);
       padding:  24px 20px;
       flex-shrink: 0;
     }
@@ -145,9 +147,9 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      background: rgba(255, 3, 3, 0.363);
-      border: 1px solid rgb(255, 5, 5);
-      color: rgb(255, 255, 255);
+      background: rgba(212,175,55,.2);
+      border: 1px solid rgba(212,175,55,.6);
+      color: var(--age-gold);
       font-size: 10px;
       font-weight: 600;
       text-transform: uppercase;
@@ -161,37 +163,38 @@
     .age-dot-wps {
       width: 6px; height: 6px;
       border-radius: 50%;
-      background: #f43f3f;
+      background: var(--age-gold);
       display: inline-block;
     }
 
-    /* WPS badge variant (green accent) */
+    /* WPS badge variant */
     .age-badge-wps {
-      background: rgba(0, 122, 61, 0.16);
-      border-color: rgba(0, 122, 61, 0.9);
+      background: rgba(212,175,55,.15);
+      border-color: rgba(212,175,55,.5);
     }
     .age-dot-wps {
-      background: #00c16a;
+      background: var(--age-gold);
     }
     .age-headline h2,
     .age-hl h2 {
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 700;
+      font-family: 'Cormorant Garamond', serif;
       color: var(--age-white);
-      line-height: 1.25;
-      letter-spacing: -.01em;
+      line-height: 1.3;
+      letter-spacing: 0.02em;
     }
     .age-headline p,
     .age-hl p {
       font-size: 12.5px;
-      color: rgba(255,255,255,.58);
+      color: rgba(255,255,255,.65);
       margin-top: 4px;
     }
 
-    /* ── GREEN ACCENT LINE ── */
+    /* ── GOLD ACCENT LINE ── */
     .age-stripe {
-      height: 3px;
-      background: linear-gradient(90deg, #F4D03F 0%, #F9E07A 35%, #007A3D 100%);
+      height: 4px;
+      background: linear-gradient(90deg, var(--age-gold-dark) 0%, var(--age-gold) 50%, var(--age-gold-mid) 100%);
       flex-shrink: 0;
     }
 
@@ -220,7 +223,7 @@
       padding: 14px 16px;
       border-radius: 10px;
       border: 1.5px solid var(--age-border);
-      background: var(--age-green-light);
+      background: var(--age-gold-light);
       position: relative;
       overflow: hidden;
     }
@@ -230,19 +233,19 @@
       position: absolute;
       left: 0; top: 0; bottom: 0;
       width: 4px;
-      background: var(--age-green);
+      background: var(--age-gold);
       border-radius: 4px 0 0 4px;
     }
     .age-branch-icon,
     .m1-icon {
       width: 36px; height: 36px;
-      background: var(--age-green);
+      background: var(--age-gold);
       border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
     .age-branch-icon svg,
-    .m1-icon svg { color: #fff; }
+    .m1-icon svg { color: var(--age-black); }
 
     .age-branch-name,
     .m1-name {
@@ -259,7 +262,7 @@
       gap: 5px;
       font-size: 11.5px;
       font-weight: 500;
-      color: var(--age-red);
+      color: var(--age-gold);
     }
     .age-branch-date svg,
     .m1-date svg { flex-shrink: 0; }
@@ -267,18 +270,18 @@
     /* Info message */
     .age-info-box,
     .age-info {
-      background: var(--age-green-light);
-      border: 1px solid var(--age-green-mid);
-      border-left: 4px solid var(--age-green);
+      background: var(--age-gold-light);
+      border: 1px solid var(--age-gold-mid);
+      border-left: 4px solid var(--age-gold);
       border-radius: 8px;
       padding: 13px 16px;
       font-size: 13px;
       line-height: 1.65;
-      color: #1a3a2a;
+      color: #2A2A2A;
       margin-bottom: 18px;
     }
     .age-info-box strong,
-    .age-info strong { color: var(--age-green-dark); }
+    .age-info strong { color: var(--age-gold-dark); }
 
     /* Contact */
     .age-contact-grid,
@@ -294,7 +297,7 @@
       align-items: center;
       gap: 10px;
       padding: 12px 14px;
-      background: #fff;
+      background: var(--age-white);
       border: 1.5px solid var(--age-border);
       border-radius: 9px;
       text-decoration: none;
@@ -302,28 +305,28 @@
     }
     .age-contact-link:hover,
     .m1-link:hover {
-      border-color: var(--age-green);
-      background: var(--age-green-light);
+      border-color: var(--age-gold);
+      background: var(--age-gold-light);
       transform: translateY(-1px);
     }
     .age-contact-icon,
     .m1-ci {
       width: 34px; height: 34px;
       border-radius: 7px;
-      background: var(--age-green-light);
-      border: 1px solid var(--age-green-mid);
+      background: var(--age-gold-light);
+      border: 1px solid var(--age-gold-mid);
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
       transition: background .2s;
     }
     .age-contact-link:hover .age-contact-icon,
     .m1-link:hover .m1-ci {
-      background: var(--age-green);
+      background: var(--age-gold);
     }
     .age-contact-icon svg,
-    .m1-ci svg { color: var(--age-green); transition: color .2s; }
+    .m1-ci svg { color: var(--age-gold); transition: color .2s; }
     .age-contact-link:hover .age-contact-icon svg,
-    .m1-link:hover .m1-ci svg { color: #fff; }
+    .m1-link:hover .m1-ci svg { color: var(--age-black); }
     .age-cl {
       font-size: 10px;
       color: var(--age-text-muted);
@@ -363,8 +366,8 @@
     }
     .age-btn-dismiss:hover,
     .age-ghost:hover {
-      border-color: var(--age-green);
-      color: var(--age-green);
+      border-color: var(--age-gold);
+      color: var(--age-gold);
     }
     .age-btn-find,
     .age-solid {
@@ -373,8 +376,8 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      background: var(--age-green);
-      color: #fff;
+      background: var(--age-gold);
+      color: var(--age-black);
       border: none;
       border-radius: 8px;
       padding: 12px 20px;
@@ -388,43 +391,43 @@
     }
     .age-btn-find:hover,
     .age-solid:hover {
-      background: var(--age-green-dark);
+      background: var(--age-gold-dark);
       transform: translateY(-1px);
     }
     .age-btn-find svg,
     .age-solid svg { flex-shrink: 0; }
 
-    /* Modal 2 specific hero & steps (reuse base colors) */
+    /* Modal 2 specific hero & steps */
     .wps-hero {
       display:flex;align-items:center;gap:16px;
-      background:linear-gradient(135deg,var(--age-green) 0%,var(--age-green-dark) 100%);
+      background:linear-gradient(135deg,var(--age-black-soft) 0%,var(--age-black) 100%);
       border-radius:10px;padding:18px 20px;margin-bottom:16px;
       position:relative;overflow:hidden;
     }
     .wps-hero::after {
       content:'';position:absolute;right:-20px;top:-20px;
       width:100px;height:100px;border-radius:50%;
-      background:rgba(255,255,255,.07);pointer-events:none;
+      background:rgba(212,175,55,.1);pointer-events:none;
     }
     .wps-hero-icon {
       width:52px;height:52px;flex-shrink:0;
-      background:rgba(255,255,255,.15);
-      border:1.5px solid rgba(255,255,255,.25);
+      background:rgba(212,175,55,.2);
+      border:1.5px solid rgba(212,175,55,.4);
       border-radius:12px;display:flex;align-items:center;justify-content:center;
     }
-    .wps-hero-icon svg { color:#fff; }
-    .wps-hero-txt strong { display:block;font-size:15px;font-weight:700;color:#fff;margin-bottom:4px;line-height:1.25; }
-    .wps-hero-txt span  { font-size:12px;color:rgba(255,255,255,.68);line-height:1.5; }
+    .wps-hero-icon svg { color:var(--age-gold); }
+    .wps-hero-txt strong { display:block;font-size:15px;font-weight:700;color:var(--age-gold);margin-bottom:4px;line-height:1.25; }
+    .wps-hero-txt span  { font-size:12px;color:rgba(255,255,255,.75);line-height:1.5; }
 
     .wps-steps { display:flex;flex-direction:column;gap:10px;margin-bottom:16px; }
     .wps-step {
       display:flex;align-items:flex-start;gap:12px;
       padding:12px 14px;border-radius:9px;
-      background:var(--age-green-light);border:1px solid var(--age-green-mid);
+      background:var(--age-gold-light);border:1px solid var(--age-gold-mid);
     }
     .wps-num {
       width:24px;height:24px;border-radius:50%;
-      background:var(--age-green);color:#fff;font-size:11px;font-weight:700;
+      background:var(--age-gold);color:var(--age-black);font-size:11px;font-weight:700;
       display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;
     }
     .wps-step strong { font-size:13px;font-weight:600;color:var(--age-text);display:block;margin-bottom:2px; }
@@ -457,7 +460,7 @@
     .age-overlay.age-rtl .age-info,
     .age-overlay[dir="rtl"] .age-info-box,
     .age-overlay[dir="rtl"] .age-info {
-      border-left: none; border-right: 4px solid var(--age-green);
+      border-left: none; border-right: 4px solid var(--age-gold);
     }
     .age-overlay.age-rtl .wps-num,
     .age-overlay[dir="rtl"] .wps-num { margin-left: 0; margin-right: 0; }
