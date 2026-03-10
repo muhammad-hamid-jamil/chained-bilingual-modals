@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chained Bilingual Modals — Muhammad Hamid</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* ─── SCOPED RESET: only inside modals ─── */
+    .age-overlay *, .age-overlay *::before, .age-overlay *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* ════════════════════════════════
+       MODAL — paste into Webflow
+       ════════════════════════════════ */
+
+    /* Brand tokens (customize in :root) */
+    :root {
+      --age-green:        #007A3D;
+      --age-green-dark:   #005C2E;
+      --age-green-light:  #E8F5EE;
+      --age-green-mid:    #D0EAD9;
+      --age-text:         #1A1A1A;
+      --age-text-muted:   #6B7280;
+      --age-red:          #D93025;
+      --age-white:        #FFFFFF;
+      --age-border:       #E2E8E4;
+      --age-radius:       12px;
+    }
+
+    /* overlay */
+    .age-overlay,
+    #ageOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      animation: ageFadeIn .3s ease;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    @keyframes ageFadeIn { from { opacity: 0 } to { opacity: 1 } }
+
+    /* card */
+    .age-modal,
+    .age-card {
+      background: var(--age-white);
+      border-radius: var(--age-radius);
+      width: 100%;
+      max-width: 480px;
+      max-height: calc(100vh - 32px);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      margin: auto;
+      box-shadow:
+        0 20px 60px rgba(0,0,0,.18),
+        0 0 0 1px rgba(0,122,61,.12);
+      animation: ageSlideUp .4s cubic-bezier(.22,1,.36,1);
+    }
+    @keyframes ageSlideUp {
+      from { opacity:0; transform:translateY(24px) }
+      to   { opacity:1; transform:translateY(0)    }
+    }
+
+    /* ── TOP GREEN BANNER ── */
+    .age-banner {
+      background: var(--age-green);
+      padding: 20px 24px 18px;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .age-banner::after {
+      content: '';
+      position: absolute;
+      right: 0; top: 0; bottom: 0;
+      width: 120px;
+      background: linear-gradient(135deg, transparent 50%, rgba(255,255,255,.06) 50%);
+      pointer-events: none;
+    }
+
+    .age-banner-row,
+    .age-banner-inner {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .age-logo-wrap,
+    .age-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .age-logo img,
+    .age-logo-text {
+      max-height: 50px;
+      width: auto;
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.02em;
+    }
+
+    .age-close,
+    .age-x {
+      background: rgba(207, 17, 17, 0.671);
+      border: 1px solid rgba(255,255,255,.2);
+      color: rgba(255,255,255,.85);
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background .2s;
+    }
+    .age-close:hover,
+    .age-x:hover { background: rgb(253, 6, 6); color: #fff; }
+
+    /* ── HEADLINE SECTION (below banner) ── */
+    .age-headline,
+    .age-hl {
+      background: var(--age-green-dark);
+      padding:  24px 20px;
+      flex-shrink: 0;
+    }
+    .age-tag,
+    .age-badge,
+    .age-badge-wps {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 3, 3, 0.363);
+      border: 1px solid rgb(255, 5, 5);
+      color: rgb(255, 255, 255);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+    .age-tag-dot,
+    .age-dot,
+    .age-dot-wps {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #f43f3f;
+      display: inline-block;
+    }
+
+    /* WPS badge variant (green accent) */
+    .age-badge-wps {
+      background: rgba(0, 122, 61, 0.16);
+      border-color: rgba(0, 122, 61, 0.9);
+    }
+    .age-dot-wps {
+      background: #00c16a;
+    }
+    .age-headline h2,
+    .age-hl h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--age-white);
+      line-height: 1.25;
+      letter-spacing: -.01em;
+    }
+    .age-headline p,
+    .age-hl p {
+      font-size: 12.5px;
+      color: rgba(255,255,255,.58);
+      margin-top: 4px;
+    }
+
+    /* ── GREEN ACCENT LINE ── */
+    .age-stripe {
+      height: 3px;
+      background: linear-gradient(90deg, #F4D03F 0%, #F9E07A 35%, #007A3D 100%);
+      flex-shrink: 0;
+    }
+
+    /* ── BODY (scrollable when content overflows) ── */
+    .age-body {
+      padding: 22px 24px 0;
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Branch cards (Modal 1) */
+    .age-branches,
+    .m1-branches {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .age-branch-card,
+    .m1-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      border-radius: 10px;
+      border: 1.5px solid var(--age-border);
+      background: var(--age-green-light);
+      position: relative;
+      overflow: hidden;
+    }
+    .age-branch-card::before,
+    .m1-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 4px;
+      background: var(--age-green);
+      border-radius: 4px 0 0 4px;
+    }
+    .age-branch-icon,
+    .m1-icon {
+      width: 36px; height: 36px;
+      background: var(--age-green);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .age-branch-icon svg,
+    .m1-icon svg { color: #fff; }
+
+    .age-branch-name,
+    .m1-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--age-text);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .age-branch-date,
+    .m1-date {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--age-red);
+    }
+    .age-branch-date svg,
+    .m1-date svg { flex-shrink: 0; }
+
+    /* Info message */
+    .age-info-box,
+    .age-info {
+      background: var(--age-green-light);
+      border: 1px solid var(--age-green-mid);
+      border-left: 4px solid var(--age-green);
+      border-radius: 8px;
+      padding: 13px 16px;
+      font-size: 13px;
+      line-height: 1.65;
+      color: #1a3a2a;
+      margin-bottom: 18px;
+    }
+    .age-info-box strong,
+    .age-info strong { color: var(--age-green-dark); }
+
+    /* Contact */
+    .age-contact-grid,
+    .m1-contacts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+    .age-contact-link,
+    .m1-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      background: #fff;
+      border: 1.5px solid var(--age-border);
+      border-radius: 9px;
+      text-decoration: none;
+      transition: border-color .2s, background .2s, transform .15s;
+    }
+    .age-contact-link:hover,
+    .m1-link:hover {
+      border-color: var(--age-green);
+      background: var(--age-green-light);
+      transform: translateY(-1px);
+    }
+    .age-contact-icon,
+    .m1-ci {
+      width: 34px; height: 34px;
+      border-radius: 7px;
+      background: var(--age-green-light);
+      border: 1px solid var(--age-green-mid);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: background .2s;
+    }
+    .age-contact-link:hover .age-contact-icon,
+    .m1-link:hover .m1-ci {
+      background: var(--age-green);
+    }
+    .age-contact-icon svg,
+    .m1-ci svg { color: var(--age-green); transition: color .2s; }
+    .age-contact-link:hover .age-contact-icon svg,
+    .m1-link:hover .m1-ci svg { color: #fff; }
+    .age-cl {
+      font-size: 10px;
+      color: var(--age-text-muted);
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      font-weight: 500;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .age-cv {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--age-text);
+      display: block;
+    }
+
+    /* ── FOOTER ── */
+    .age-footer {
+      padding: 0 24px 24px;
+      display: flex;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .age-btn-dismiss,
+    .age-ghost {
+      background: none;
+      border: 1.5px solid var(--age-border);
+      color: var(--age-text-muted);
+      border-radius: 8px;
+      padding: 12px 18px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: border-color .2s, color .2s;
+      white-space: nowrap;
+    }
+    .age-btn-dismiss:hover,
+    .age-ghost:hover {
+      border-color: var(--age-green);
+      color: var(--age-green);
+    }
+    .age-btn-find,
+    .age-solid {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--age-green);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      letter-spacing: .01em;
+      transition: background .2s, transform .15s;
+    }
+    .age-btn-find:hover,
+    .age-solid:hover {
+      background: var(--age-green-dark);
+      transform: translateY(-1px);
+    }
+    .age-btn-find svg,
+    .age-solid svg { flex-shrink: 0; }
+
+    /* Modal 2 specific hero & steps (reuse base colors) */
+    .wps-hero {
+      display:flex;align-items:center;gap:16px;
+      background:linear-gradient(135deg,var(--age-green) 0%,var(--age-green-dark) 100%);
+      border-radius:10px;padding:18px 20px;margin-bottom:16px;
+      position:relative;overflow:hidden;
+    }
+    .wps-hero::after {
+      content:'';position:absolute;right:-20px;top:-20px;
+      width:100px;height:100px;border-radius:50%;
+      background:rgba(255,255,255,.07);pointer-events:none;
+    }
+    .wps-hero-icon {
+      width:52px;height:52px;flex-shrink:0;
+      background:rgba(255,255,255,.15);
+      border:1.5px solid rgba(255,255,255,.25);
+      border-radius:12px;display:flex;align-items:center;justify-content:center;
+    }
+    .wps-hero-icon svg { color:#fff; }
+    .wps-hero-txt strong { display:block;font-size:15px;font-weight:700;color:#fff;margin-bottom:4px;line-height:1.25; }
+    .wps-hero-txt span  { font-size:12px;color:rgba(255,255,255,.68);line-height:1.5; }
+
+    .wps-steps { display:flex;flex-direction:column;gap:10px;margin-bottom:16px; }
+    .wps-step {
+      display:flex;align-items:flex-start;gap:12px;
+      padding:12px 14px;border-radius:9px;
+      background:var(--age-green-light);border:1px solid var(--age-green-mid);
+    }
+    .wps-num {
+      width:24px;height:24px;border-radius:50%;
+      background:var(--age-green);color:#fff;font-size:11px;font-weight:700;
+      display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;
+    }
+    .wps-step strong { font-size:13px;font-weight:600;color:var(--age-text);display:block;margin-bottom:2px; }
+    .wps-step span   { font-size:12px;color:var(--age-text-muted);line-height:1.5; }
+
+    /* ── RTL (Arabic) ── */
+    .age-overlay.age-rtl,
+    .age-overlay[dir="rtl"] {
+      font-family: 'Tajawal', 'Inter', sans-serif;
+    }
+    .age-overlay.age-rtl .age-card,
+    .age-overlay[dir="rtl"] .age-card { text-align: right; direction: rtl; }
+    .age-overlay.age-rtl .age-banner-row,
+    .age-overlay.age-rtl .age-banner-inner,
+    .age-overlay.age-rtl .m1-card,
+    .age-overlay.age-rtl .wps-hero,
+    .age-overlay.age-rtl .wps-step,
+    .age-overlay[dir="rtl"] .age-banner-row,
+    .age-overlay[dir="rtl"] .age-banner-inner,
+    .age-overlay[dir="rtl"] .m1-card,
+    .age-overlay[dir="rtl"] .wps-hero,
+    .age-overlay[dir="rtl"] .wps-step { flex-direction: row-reverse; }
+    .age-overlay.age-rtl .age-branch-card::before,
+    .age-overlay.age-rtl .m1-card::before,
+    .age-overlay[dir="rtl"] .age-branch-card::before,
+    .age-overlay[dir="rtl"] .m1-card::before {
+      left: auto; right: 0; border-radius: 0 4px 4px 0;
+    }
+    .age-overlay.age-rtl .age-info-box,
+    .age-overlay.age-rtl .age-info,
+    .age-overlay[dir="rtl"] .age-info-box,
+    .age-overlay[dir="rtl"] .age-info {
+      border-left: none; border-right: 4px solid var(--age-green);
+    }
+    .age-overlay.age-rtl .wps-num,
+    .age-overlay[dir="rtl"] .wps-num { margin-left: 0; margin-right: 0; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 440px) {
+      .age-overlay { padding: 10px; align-items: center; }
+      .age-card { max-height: calc(100vh - 20px); }
+      .age-banner, .age-headline, .age-hl, .age-body { padding-left: 18px; padding-right: 18px; }
+      .age-footer { padding: 0 18px 20px; flex-direction: column-reverse; }
+      .age-btn-dismiss, .age-ghost { width: 100%; text-align: center; }
+      .age-contact-grid, .m1-contacts { grid-template-columns: 1fr; }
+    }
+    @media (max-height: 500px) {
+      .age-overlay { padding: 8px; }
+      .age-card { max-height: calc(100vh - 16px); }
+      .age-banner { padding: 12px 18px 10px; }
+      .age-hl, .age-headline { padding: 14px 18px; }
+      .age-body { padding: 14px 18px 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════
+     PASTE EVERYTHING BELOW INTO WEBFLOW  ›  Custom Code
+     ════════════════════════════════════════════════════════ -->
+
+<!-- ─────────────────────────────────────
+     MODAL 1  ·  Branch Permanent Closure
+     ───────────────────────────────────── -->
+<div id="modal1" class="age-overlay notranslate" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="m1h" translate="no">
+  <div class="age-card">
+
+    <div class="age-banner">
+      <div class="age-banner-row">
+        <div class="age-logo">
+          <span class="age-logo-text">Muhammad Hamid</span>
+        </div>
+        <button class="age-x" onclick="closeModal1()" aria-label="Close">
+          <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <line x1="1" y1="1" x2="13" y2="13"/><line x1="13" y1="1" x2="1" y2="13"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="age-hl">
+      <div class="age-badge"><span class="age-dot"></span> <span data-i18n="m1_badge">Important Notice</span></div>
+      <h2 id="m1h" data-i18n="m1_h2">Permanent Branch Closure</h2>
+      <p data-i18n="m1_date">Effective 31 March 2026</p>
+    </div>
+
+    <div class="age-stripe"></div>
+
+    <div class="age-body">
+
+      <div class="m1-branches">
+        <div class="m1-card">
+          <div class="m1-icon">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </div>
+          <div>
+            <span class="m1-name" data-i18n="m1_branch1_name">AlAin — Main Branch</span>
+            <span class="m1-date">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              <span data-i18n="m1_closing">Closing permanently on 31 March 2026</span>
+            </span>
+          </div>
+        </div>
+        <div class="m1-card">
+          <div class="m1-icon">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </div>
+          <div>
+            <span class="m1-name" data-i18n="m1_branch2_name">Dubai — Century Mall Branch</span>
+            <span class="m1-date">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              <span data-i18n="m1_closing2">Closing permanently on 31 March 2026</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="age-info" data-i18n-html="m1_info">
+        We thank you for your continued trust. From <strong>31 March 2026</strong>, please visit your <strong>nearest Al Ghurair Exchange branch</strong> for all services. We remain committed to providing you the best rates and service across all our UAE locations.
+      </div>
+
+      <div class="m1-contacts">
+        <a href="tel:+923317900924" class="m1-link">
+          <div class="m1-ci">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.54 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </div>
+          <div><span class="age-cl" data-i18n="m1_call">Call</span><span class="age-cv">+923317900924</span></div>
+        </a>
+        <a href="mailto:muhammadhamidjamil0@gmail.com" class="m1-link">
+          <div class="m1-ci">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <div><span class="age-cl" data-i18n="m1_email">Email</span><span class="age-cv">muhammadhamidjamil0@gmail.com</span></div>
+        </a>
+      </div>
+
+    </div>
+
+    <div class="age-footer">
+      <button class="age-ghost" onclick="closeModal1()" data-i18n="m1_dismiss">Dismiss</button>
+      <a href="mailto:muhammadhamidjamil0@gmail.com" class="age-solid age-link-branch">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+        </svg>
+        <span data-i18n="m1_find_branch">Get in Touch</span>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────────────
+     MODAL 2  ·  WPS Online Salary
+     ───────────────────────────────────── -->
+<div id="modal2" class="age-overlay notranslate" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="m2h" translate="no">
+  <div class="age-card">
+
+    <div class="age-banner">
+      <div class="age-banner-row">
+        <div class="age-logo">
+          <span class="age-logo-text">Muhammad Hamid</span>
+        </div>
+        <button class="age-x" onclick="closeModal2()" aria-label="Close">
+          <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <line x1="1" y1="1" x2="13" y2="13"/><line x1="13" y1="1" x2="1" y2="13"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="age-hl">
+      <div class="age-badge-wps"><span class="age-dot-wps"></span> <span data-i18n="m2_badge">New — Online Service</span></div>
+      <h2 id="m2h" data-i18n="m2_h2">Process Staff Salary Seamlessly</h2>
+      <p data-i18n="m2_subtitle">No branch visit needed — fast, secure & WPS compliant</p>
+    </div>
+
+    <div class="age-stripe"></div>
+
+    <div class="age-body">
+
+      <!-- Hero feature card -->
+      <div class="wps-hero">
+        <div class="wps-hero-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="5" width="20" height="14" rx="2"/>
+            <line x1="2" y1="10" x2="22" y2="10"/>
+            <line x1="6" y1="15" x2="10" y2="15"/>
+            <line x1="14" y1="15" x2="16" y2="15"/>
+          </svg>
+        </div>
+        <div class="wps-hero-txt">
+          <strong data-i18n="m2_hero_title">Hello! Pay Your Team Online</strong>
+          <span data-i18n="m2_hero_desc">Submit your WPS salary file online — anytime, anywhere, without visiting a branch.</span>
+        </div>
+      </div>
+
+      <!-- 3-step guide -->
+      <div class="wps-steps">
+        <div class="wps-step">
+          <div class="wps-num">1</div>
+          <div>
+            <strong data-i18n="m2_step1_title">Login to Your Account</strong>
+            <span data-i18n="m2_step1_desc">Access the Al Ghurair Exchange portal with your registered company credentials.</span>
+          </div>
+        </div>
+        <div class="wps-step">
+          <div class="wps-num">2</div>
+          <div>
+            <strong data-i18n="m2_step2_title">Upload Your SIF File</strong>
+            <span data-i18n="m2_step2_desc">Upload your Salary Information File — fully MOL-compliant format accepted.</span>
+          </div>
+        </div>
+        <div class="wps-step">
+          <div class="wps-num">3</div>
+          <div>
+            <strong data-i18n="m2_step3_title">Confirm & Pay</strong>
+            <span data-i18n="m2_step3_desc">Review payroll summary and confirm. Salaries are transferred instantly.</span>
+          </div>
+        </div>
+      </div>
+
+     
+      <div class="m1-contacts">
+        <a href="tel:+923317900924" class="m1-link">
+          <div class="m1-ci">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.54 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </div>
+          <div><span class="age-cl" data-i18n="m1_call">Call</span><span class="age-cv">+923317900924</span></div>
+        </a>
+        <a href="mailto:muhammadhamidjamil0@gmail.com" class="m1-link">
+          <div class="m1-ci">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <div><span class="age-cl" data-i18n="m1_email">Email</span><span class="age-cv">muhammadhamidjamil0@gmail.com</span></div>
+        </a>
+      </div>
+
+
+    </div>
+
+    <div class="age-footer">
+      <button class="age-ghost" onclick="closeModal2()" data-i18n="m2_later">Maybe Later</button>
+      <a href="mailto:muhammadhamidjamil0@gmail.com" class="age-solid age-link-wps">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="17 1 21 5 17 9"/>
+          <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+          <polyline points="7 23 3 19 7 15"/>
+          <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+        </svg>
+        <span data-i18n="m2_cta">Contact — Full Stack Dev</span>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+/* Prevent Google Translate popup on this page */
+(function(){var m=document.querySelector('meta[name="google"][content="notranslate"]');if(!m){m=document.createElement('meta');m.name='google';m.content='notranslate';document.head.appendChild(m);}})();
+</script>
+<script>
+/* ═══════════════════════════════════════════════════════
+   Chained Bilingual Modals — Muhammad Hamid
+   Full Stack Dev | +923317900924 | muhammadhamidjamil0@gmail.com
+   EN/AR auto-detect from URL /ar-ae/ | RTL support
+   Flow: Page Load → Modal 1 (Branch Closure)
+         Close M1  → Modal 2 (WPS Payroll) auto-appears
+         Close M2  → done
+   ═══════════════════════════════════════════════════════ */
+(function () {
+  var modal1 = document.getElementById('modal1');
+  var modal2 = document.getElementById('modal2');
+
+  if (!modal1 || !modal2) {
+    return;
+  }
+
+  /* ─── Language detection: URL /ar-ae/ OR html lang="ar" / dir="rtl" ─── */
+  var isArabic = function () {
+    var path = (window.location.pathname || '');
+    var href = (window.location.href || '');
+    if (path.indexOf('/ar-ae') !== -1 || href.indexOf('/ar-ae') !== -1) return true;
+    var html = document.documentElement;
+    if (html && (html.getAttribute('lang') === 'ar' || html.getAttribute('dir') === 'rtl')) return true;
+    return false;
+  };
+
+  var currentLang = isArabic() ? 'ar' : 'en';
+
+  /* ─── Translations ─── */
+  var t = {
+    en: {
+      m1_badge: 'Important Notice',
+      m1_h2: 'Permanent Branch Closure',
+      m1_date: 'Effective 31 March 2026',
+      m1_branch1_name: 'AlAin — Main Branch',
+      m1_branch2_name: 'Dubai — Century Mall Branch',
+      m1_closing: 'Closing permanently on 31 March 2026',
+      m1_closing2: 'Closing permanently on 31 March 2026',
+      m1_info: 'We thank you for your continued trust. From <strong>31 March 2026</strong>, please visit your <strong>nearest Al Ghurair Exchange branch</strong> for all services. We remain committed to providing you the best rates and service across all our UAE locations.',
+      m1_call: 'Call Us',
+      m1_email: 'Email Us',
+      m1_dismiss: 'Dismiss',
+      m1_find_branch: 'Get in Touch',
+      m2_badge: 'New — Online Service',
+      m2_h2: 'Process Staff Salary Seamlessly',
+      m2_subtitle: 'No branch visit needed — fast, secure & WPS compliant',
+      m2_hero_title: 'Hello! Pay Your Team Online',
+      m2_hero_desc: 'Submit your WPS salary file online — anytime, anywhere, without visiting a branch.',
+      m2_step1_title: 'Login to Your Account',
+      m2_step1_desc: 'Access the Al Ghurair Exchange portal with your registered company credentials.',
+      m2_step2_title: 'Upload Your SIF File',
+      m2_step2_desc: 'Upload your Salary Information File — fully MOL-compliant format accepted.',
+      m2_step3_title: 'Confirm & Pay',
+      m2_step3_desc: 'Review payroll summary and confirm. Salaries are transferred instantly.',
+      m2_later: 'Maybe Later',
+      m2_cta: 'Contact — Full Stack Dev'
+    },
+    ar: {
+      m1_badge: 'إشعار هام',
+      m1_h2: 'إغلاق فرع دائم',
+      m1_date: 'ساري من 31 مارس 2026',
+      m1_branch1_name: 'العين — الفرع الرئيسي',
+      m1_branch2_name: 'دبي — فرع سينشري مول',
+      m1_closing: 'يُغلق نهائياً في 31 مارس 2026',
+      m1_closing2: 'يُغلق نهائياً في 31 مارس 2026',
+      m1_info: 'نشكرك على ثقتك المستمرة. اعتباراً من <strong>31 مارس 2026</strong>، يرجى زيارة <strong>أقرب فرع لشركة الغرير للصرافة</strong> لجميع الخدمات. نحن ملتزمون بتقديم أفضل الأسعار والخدمة في جميع فروعنا في الإمارات.',
+      m1_call: 'اتصل بنا',
+      m1_email: 'راسلنا',
+      m1_dismiss: 'إغلاق',
+      m1_find_branch: 'تواصل معي',
+      m2_badge: 'جديد — خدمة أونلاين',
+      m2_h2: 'معالجة رواتب الموظفين بسلاسة',
+      m2_subtitle: 'لا حاجة لزيارة الفرع — سريع وآمن ومتوافق مع نظام الرواتب',
+      m2_hero_title: 'مرحباً! ادفع لفريقك أونلاين',
+      m2_hero_desc: 'أرسل ملف رواتبك عبر الإنترنت — في أي وقت ومن أي مكان، دون زيارة الفرع.',
+      m2_step1_title: 'سجّل الدخول إلى حسابك',
+      m2_step1_desc: 'ادخل إلى بوابة الغرير للصرافة ببيانات الشركة المسجلة.',
+      m2_step2_title: 'ارفع ملف SIF',
+      m2_step2_desc: 'ارفع ملف معلومات الرواتب — بصيغة متوافقة بالكامل مع وزارة العمل.',
+      m2_step3_title: 'أكد وادفع',
+      m2_step3_desc: 'راجع ملخص الرواتب وأكد. يتم تحويل الرواتب فوراً.',
+      m2_later: 'ربما لاحقاً',
+      m2_cta: 'تواصل — مطور Full Stack'
+    }
+  };
+
+  /* ─── Apply translations & RTL ─── */
+  var applyTranslations = function (lang) {
+    var tr = t[lang] || t.en;
+    var overlay = document.querySelector('.age-overlay');
+
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      var key = el.getAttribute('data-i18n');
+      if (tr[key]) {
+        el.textContent = tr[key];
+      }
+    });
+
+    document.querySelectorAll('[data-i18n-html]').forEach(function (el) {
+      var key = el.getAttribute('data-i18n-html');
+      if (tr[key]) {
+        el.innerHTML = tr[key];
+      }
+    });
+
+    /* CTA links — customize in HTML or override here */
+
+    /* RTL for both modals */
+    [modal1, modal2].forEach(function (m) {
+      if (m) {
+        if (lang === 'ar') {
+          m.setAttribute('dir', 'rtl');
+          m.classList.add('age-rtl');
+        } else {
+          m.removeAttribute('dir');
+          m.classList.remove('age-rtl');
+        }
+      }
+    });
+  };
+
+  applyTranslations(currentLang);
+
+  var showModal1 = function () {
+    modal1.style.display = 'flex';
+    modal1.classList.remove('fade-out');
+    void modal1.offsetWidth;
+    modal1.classList.add('fade-in');
+  };
+
+  var closeModal1 = function () {
+    modal1.classList.remove('fade-in');
+    modal1.classList.add('fade-out');
+    setTimeout(function () {
+      modal1.style.display = 'none';
+      modal1.classList.remove('fade-out');
+      setTimeout(showModal2, 160);
+    }, 220);
+  };
+
+  var showModal2 = function () {
+    modal2.style.display = 'flex';
+    modal2.classList.remove('fade-out');
+    void modal2.offsetWidth;
+    modal2.classList.add('fade-in');
+  };
+
+  var closeModal2 = function () {
+    modal2.classList.remove('fade-in');
+    modal2.classList.add('fade-out');
+    setTimeout(function () {
+      modal2.style.display = 'none';
+      modal2.classList.remove('fade-out');
+    }, 220);
+  };
+
+  window.addEventListener('DOMContentLoaded', function () {
+    applyTranslations(currentLang);
+    showModal1();
+  });
+
+  modal1.addEventListener('click', function (e) {
+    if (e.target === modal1) {
+      closeModal1();
+    }
+  });
+
+  modal2.addEventListener('click', function (e) {
+    if (e.target === modal2) {
+      closeModal2();
+    }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') {
+      return;
+    }
+    if (modal1.style.display !== 'none' && modal1.style.display !== '') {
+      closeModal1();
+    } else if (modal2.style.display !== 'none' && modal2.style.display !== '') {
+      closeModal2();
+    }
+  });
+
+  window.showModal1 = showModal1;
+  window.closeModal1 = closeModal1;
+  window.showModal2 = showModal2;
+  window.closeModal2 = closeModal2;
+})();
+</script>
+
+</body>
+</html>
