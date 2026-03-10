@@ -135,8 +135,8 @@ Copy-paste the content between the `<!-- PASTE EVERYTHING BELOW -->` comment and
 
 ```
 table/
-├── form.html              # Main component (modals + script)
-├── al-ghurair-fees-schedule.html  # Example: fees table (separate)
+├── form.html    # Main component (modals + script)
+├── LICENSE
 └── README.md
 ```
 
