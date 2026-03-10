@@ -2,8 +2,8 @@
 
 > **Production-ready**, zero-dependency modal component with automatic English/Arabic language detection, RTL support, and responsive design. Drop-in embed for any website.
 
-[![Author](https://img.shields.io/badge/Author-Muhammad%20Hamid-007A3D?style=flat-square)](mailto:muhammadhamidjamil0@gmail.com)
-[![Full Stack Dev](https://img.shields.io/badge/Role-Full%20Stack%20Dev-005C2E?style=flat-square)](tel:+923317900924)
+[![Author](https://img.shields.io/badge/Author-Muhammad%20Hamid-D4AF37?style=flat-square)](mailto:muhammadhamidjamil0@gmail.com)
+[![Full Stack Dev](https://img.shields.io/badge/Role-Full%20Stack%20Dev-0A0A0A?style=flat-square)](tel:+923317900924)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
 
 ---
@@ -125,7 +125,7 @@ Copy-paste the content between the `<!-- PASTE EVERYTHING BELOW -->` comment and
 |----------------|-------|
 | **Contact info** | Search for `+923317900924`, `muhammadhamidjamil0@gmail.com` |
 | **Logo / Brand** | `.age-logo-text` or replace with `<img src="…">` |
-| **Colors** | `:root` CSS variables (`--age-green`, etc.) |
+| **Colors** | `:root` CSS variables (`--age-gold`, `--age-black`, etc.) |
 | **Text / Translations** | `var t = { en: {...}, ar: {...} }` in script |
 | **Links** | `href` on `.age-link-branch`, `.age-link-wps` |
 
