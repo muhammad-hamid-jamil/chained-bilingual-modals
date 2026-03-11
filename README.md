@@ -1,4 +1,4 @@
-# 🌐 Chained Bilingual Modals — EN/AR
+# 🌐 Chained Bilingual Modals  EN/AR
 
 > **Production-ready**, zero-dependency modal component with automatic English/Arabic language detection, RTL support, and responsive design. Drop-in embed for any website.
 
@@ -8,7 +8,7 @@
 
 ---
 
-## 📋 What Are These Modals?
+## What Are These Modals?
 
 Two **chained announcement modals** that appear on page load:
 
@@ -21,20 +21,20 @@ Two **chained announcement modals** that appear on page load:
 
 ---
 
-## ✨ Features
+## Features
 
-- ✅ **Bilingual (EN/AR)** — Auto-detects from URL (`/ar-ae`) or `lang="ar"` / `dir="rtl"`
-- ✅ **RTL Layout** — Proper Arabic right-to-left with Tajawal font
-- ✅ **Responsive** — Scrollable body, no overflow on 100% zoom or mobile
-- ✅ **Zero Dependencies** — Pure HTML, CSS, JS — no jQuery, React, or frameworks
-- ✅ **Copy-Paste Ready** — Single-file embed for Webflow, WordPress, Shopify, PHP, static sites
-- ✅ **Accessible** — `role="dialog"`, `aria-modal`, Escape key, click-outside to close
-- ✅ **Google Translate** — Suppresses browser translation popup
-- ✅ **Customizable** — CSS variables, `data-i18n` for translations
+-  **Bilingual (EN/AR)**  Auto-detects from URL (`/ar-ae`) or `lang="ar"` / `dir="rtl"`
+-  **RTL Layout**  Proper Arabic right-to-left with Tajawal font
+-  **Responsive**  Scrollable body, no overflow on 100% zoom or mobile
+-  **Zero Dependencies**  Pure HTML, CSS, JS — no jQuery, React, or frameworks
+-  **Copy-Paste Ready**  Single-file embed for Webflow, WordPress, Shopify, PHP, static sites
+-  **Accessible**  `role="dialog"`, `aria-modal`, Escape key, click-outside to close
+-  **Google Translate**  Suppresses browser translation popup
+-  **Customizable**  CSS variables, `data-i18n` for translations
 
 ---
 
-## 🚀 Who Can Use This?
+##  Who Can Use This?
 
 | Audience | Use Case |
 |----------|----------|
@@ -45,7 +45,7 @@ Two **chained announcement modals** that appear on page load:
 
 ---
 
-## 📦 How to Add to Your Site
+## How to Add to Your Site
 
 ### 1️⃣ Webflow
 
@@ -59,19 +59,19 @@ Two **chained announcement modals** that appear on page load:
 
 ### 2️⃣ WordPress
 
-**Option A — Custom HTML block**
+**Option A -> Custom HTML block**
 
 1. Add **Custom HTML** block
 2. Paste `form.html` content
 
-**Option B — Theme / child theme**
+**Option B -> Theme / child theme**
 
 ```php
 // In footer.php or a template
 <?php echo file_get_contents(get_template_directory() . '/path/to/form.html'); ?>
 ```
 
-**Option C — Shortcode**
+**Option C -> Shortcode**
 
 ```php
 // functions.php
@@ -115,7 +115,7 @@ add_shortcode('bilingual_modals', 'bilingual_modals_shortcode');
 
 ### 5️⃣ Static HTML / Any CMS
 
-Copy-paste the content between the `<!-- PASTE EVERYTHING BELOW -->` comment and `</body>` into your HTML.
+Copy paste the content between the `<!-- PASTE EVERYTHING BELOW -->` comment and `</body>` into your HTML.
 
 ---
 
@@ -162,4 +162,4 @@ table/
 
 ## 📄 License
 
-MIT — Use freely. Attribution appreciated.
+MIT -> Use freely. Attribution appreciated.
